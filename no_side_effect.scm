@@ -269,12 +269,12 @@
       (cond
         ((eq? action 'get-balance) balance)
         ((eq? action 'get-log) (reverse transaction-log))
-        ((eq? action 'add) (make-balance-impl (+ balance (car args)) (cons `(add ,@args) transaction-log)))
-        ((eq? action 'clear) (make-balance-impl 0 (cons `(clear ,balance) transaction-log)))
-        ((eq? action 'revert) (make-balance-impl (revert balance transaction-log (car args)) (cons `(,action ,@args) transaction-log)))
+        ((eq? action 'add) (make-balance-impl (+ balance (car args)) (cons (cons 'add args) transaction-log)))
+        ((eq? action 'clear) (make-balance-impl 0 (cons (list 'clear balance) transaction-log)))
+        ((eq? action 'revert) (make-balance-impl (revert balance transaction-log (car args)) (cons (cons action args) transaction-log)))
         ((eq? action 'reset) (apply make-balance-impl (reset balance transaction-log (car args))))
         
-        (else (display "unknown action ") (display `(,action ,@args)) (newline) ))))
+        (else (display "unknown action ") (display (cons action args)) (newline) ))))
   (define (reset balance transaction-log k)
     (if (or (null? transaction-log) (<= k 0))
         (list balance transaction-log)
