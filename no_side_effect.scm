@@ -96,7 +96,7 @@
       e
       (computeE (+ e (/ 1.0 f)) (+ k 1) (* f k) m)))
 
-(show (computeE 0 1 1 10000))  ;; 2.7182818##
+(show (computeE 0 1 1.0 100))  ;; 2.7182818##
 
 ;;; predicates
 (title "predicate eqv?")
